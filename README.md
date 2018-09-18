@@ -15,6 +15,8 @@ $data = $object->get_crawl_thich_truyen_tranh($url);
 
 # show all
 echo "\<pre\>";
+
 print_r($data);
+
 echo "\<\/pre\>";
 
