@@ -8,9 +8,48 @@
 class Data_Thich_Truyen_Tranh
 {
     private $base_url = "http://thichtruyentranh.com";
+    private $proxy = true;
 
     function __construct()
     {
+        $this->proxy = ($this->proxy) ? $this->config_proxy() : NULL;
+    }
+
+    /**
+     * Check using proxy
+     * 
+     * @return [boolean]
+     */
+    private function check_proxy($url)
+    {
+        $theHeader = curl_init($url);
+        curl_setopt($theHeader, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($theHeader, CURLOPT_TIMEOUT, 20);
+        curl_setopt($theHeader, CURLOPT_PROXY, $passByIPPort); 
+         
+        //Execute the request
+        $curlResponse = curl_exec($theHeader);
+
+        return $curlResponse;
+    }
+
+    /**
+     * Config proxy
+     * 
+     * @return [proxy]
+     */
+    private function config_proxy()
+    {
+        $default_opts = array(
+          'http'=>array(
+            'proxy'=>"tcp://192.168.1.2:3128",
+            'request_fulluri' => true,
+          )
+        );
+
+        $default = stream_context_create($default_opts);
+
+        return $default;
     }
 
     /**
@@ -21,7 +60,7 @@ class Data_Thich_Truyen_Tranh
      */
     private function get_url_thich_truyen_tranh($url)
     {
-        $string = file_get_contents($this->base_url . $url);
+        $string = file_get_contents($this->base_url . $url, false, $this->proxy);
 
         $pattern = '#<div .* id="listChapterBlock">.*<ul class="ul_listchap">(.*)</ul>.*</div>#imsU';
 
@@ -51,7 +90,7 @@ class Data_Thich_Truyen_Tranh
      */
     private function get_paging_thich_truyen_tranh($url)
     {
-        $string = file_get_contents($this->base_url . $url);
+        $string = file_get_contents($this->base_url . $url, false, $this->proxy);
 
         $pattern_btn = '#<div .* id="listChapterBlock">.*<div class="pagingWrap".*<ul>(.*)</ul></div></div>#imsU';
 
@@ -73,7 +112,8 @@ class Data_Thich_Truyen_Tranh
      * @param $array
      * @return bool
      */
-    private function check_paging($i, $array) {
+    private function check_paging($i, $array) 
+    {
         foreach ($array as $key => $value) {
             if (strpos($value, "trang.".$i.".html") !== false) {
                 return $value;
