@@ -12,15 +12,31 @@ class Data_Thich_Truyen_Tranh
 
     function __construct()
     {
-        if ($this->proxy) {
-            $this->proxy = $this->config_proxy();
-        }
+        $this->proxy = ($this->proxy) ? $this->config_proxy() : NULL;
+    }
+
+    /**
+     * Check using proxy
+     * 
+     * @return [boolean]
+     */
+    private function check_proxy($url)
+    {
+        $theHeader = curl_init($url);
+        curl_setopt($theHeader, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($theHeader, CURLOPT_TIMEOUT, 20);
+        curl_setopt($theHeader, CURLOPT_PROXY, $passByIPPort); 
+         
+        //Execute the request
+        $curlResponse = curl_exec($theHeader);
+
+        return $curlResponse;
     }
 
     /**
      * Config proxy
      * 
-     * @return [type]
+     * @return [proxy]
      */
     private function config_proxy()
     {
