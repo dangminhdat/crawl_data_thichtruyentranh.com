@@ -61,8 +61,8 @@ class Image_Thich_Truyen_Tranh extends thichtruyentranh\Data_Thich_Truyen_Tranh
 	}
 
 }
-
 $class_data = new Image_Thich_Truyen_Tranh();
+
 $all = $class_data->get_crawl_thich_truyen_tranh();
 $conan = $class_data->getImageSpecific();
 
