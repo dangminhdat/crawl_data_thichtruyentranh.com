@@ -9,10 +9,14 @@ namespace thichtruyentranh;
 
 class Data_Thich_Truyen_Tranh
 {
-    protected $base_url = "http://thichtruyentranh.com";
-    protected $proxy = false;
-
-    protected function __construct()
+    protected $base_url     = "http://thichtruyentranh.com";
+    protected $proxy        = true;
+    private   $pattern_li   = '#<div .* id="listChapterBlock">.*<ul class="ul_listchap">(.*)</ul>.*</div>#imsU';
+    private   $pattern_a    = '#<li>.*<a href="(.*)" title="(.*)">.*</a></li>#imsU';
+    private   $paging_li    = '#<div .* id="listChapterBlock">.*<div class="pagingWrap".*<ul>(.*)</ul></div></div>#imsU';
+    private   $paging_a     = '#<li>.*<a href="(.*)">.*</a></li>#imsU';
+ 
+    function __construct()
     {
         $this->proxy = ($this->proxy) ? $this->config_proxy() : NULL;
     }
@@ -64,15 +68,11 @@ class Data_Thich_Truyen_Tranh
     {
         $string = file_get_contents($this->base_url . $url, false, $this->proxy);
 
-        $pattern = '#<div .* id="listChapterBlock">.*<ul class="ul_listchap">(.*)</ul>.*</div>#imsU';
-
-        preg_match_all($pattern, $string, $matches);
+        preg_match_all($this->pattern_li, $string, $matches);
 
         $data = $matches[1][0];
 
-        $pattern_li = '#<li>.*<a href="(.*)" title="(.*)">.*</a></li>#imsU';
-
-        preg_match_all($pattern_li, $data, $matches_li);
+        preg_match_all($this->pattern_a, $data, $matches_li);
 
         $array = [];
 
@@ -94,15 +94,11 @@ class Data_Thich_Truyen_Tranh
     {
         $string = file_get_contents($this->base_url . $url, false, $this->proxy);
 
-        $pattern_btn = '#<div .* id="listChapterBlock">.*<div class="pagingWrap".*<ul>(.*)</ul></div></div>#imsU';
-
-        preg_match_all($pattern_btn, $string, $matches_btn);
+        preg_match_all($this->paging_li, $string, $matches_btn);
 
         $data = $matches_btn[1][0];
 
-        $pattern_li = '#<li>.*<a href="(.*)">.*</a></li>#imsU';
-
-        preg_match_all($pattern_li, $data, $matches_li);
+        preg_match_all($this->paging_a, $data, $matches_li);
 
         return $matches_li[1];
     }
@@ -148,10 +144,3 @@ class Data_Thich_Truyen_Tranh
         return $result;
     }
 }
-
-// $class_data = new Data_Thich_Truyen_Tranh();
-// $conan = $class_data->get_crawl_thich_truyen_tranh("/cuc-han-chi-dia/9113.html");
-
-// echo "<pre>";
-// print_r($conan);
-// echo "</pre>";
