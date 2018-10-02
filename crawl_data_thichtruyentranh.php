@@ -5,12 +5,14 @@
  * DatDM
  * Create by 2018/9/18
  */
+namespace thichtruyentranh;
+
 class Data_Thich_Truyen_Tranh
 {
-    private $base_url = "http://thichtruyentranh.com";
-    private $proxy = true;
+    protected $base_url = "http://thichtruyentranh.com";
+    protected $proxy = false;
 
-    function __construct()
+    protected function __construct()
     {
         $this->proxy = ($this->proxy) ? $this->config_proxy() : NULL;
     }
@@ -147,9 +149,9 @@ class Data_Thich_Truyen_Tranh
     }
 }
 
-$class_data = new Data_Thich_Truyen_Tranh();
-$conan = $class_data->get_crawl_thich_truyen_tranh("/truyen/2016/05/conan/196.html");
+// $class_data = new Data_Thich_Truyen_Tranh();
+// $conan = $class_data->get_crawl_thich_truyen_tranh("/cuc-han-chi-dia/9113.html");
 
-echo "<pre>";
-print_r($conan);
-echo "</pre>";
+// echo "<pre>";
+// print_r($conan);
+// echo "</pre>";
