@@ -20,8 +20,12 @@ $data = $object->get_crawl_thich_truyen_tranh($url);
 # get link specific of chapter comic
 $chapter = $object->getImageSpecific($chapter_01);
 
-# show all
+# show all link
 echo "\<pre\>";
 print_r($data);
 echo "\<\/pre\>";
 
+# show image of chapter
+echo "\<pre\>";
+print_r($chapter);
+echo "\<\/pre\>";
