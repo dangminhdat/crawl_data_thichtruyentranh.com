@@ -28,7 +28,7 @@ class Data_Thich_Truyen_Tranh
      */
     private function get_url_thich_truyen_tranh($url)
     {
-        $string = file_get_contents($this->base_url . $url, false, $this->proxy);
+        $string = file_get_contents($this->base_url . $url, false, false);
 
         preg_match_all($this->pattern_li, $string, $matches);
 
@@ -54,7 +54,7 @@ class Data_Thich_Truyen_Tranh
      */
     private function get_paging_thich_truyen_tranh($url)
     {
-        $string = file_get_contents($this->base_url . $url, false, $this->proxy);
+        $string = file_get_contents($this->base_url . $url, false, false);
 
         preg_match_all($this->paging_li, $string, $matches_btn);
 
