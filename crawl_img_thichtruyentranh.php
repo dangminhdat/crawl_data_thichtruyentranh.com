@@ -41,7 +41,7 @@ class Image_Thich_Truyen_Tranh extends thichtruyentranh\Data_Thich_Truyen_Tranh
 
 		$url = $this->base_url.$this->link_chapter;
 
-		$content = file_get_contents($url, false, $this->proxy);
+		$content = file_get_contents($url, false, false);
 
 		preg_match_all($this->pattern_img, $content, $matches);
 
