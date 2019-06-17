@@ -48,7 +48,7 @@ class Data_Thich_Truyen_Tranh
     {
         $default_opts = array(
           'http'=>array(
-            'proxy'=>"tcp://192.168.1.2:3128",
+            'proxy'=>"tcp://000.000.000.000:0000",
             'request_fulluri' => true,
           )
         );
