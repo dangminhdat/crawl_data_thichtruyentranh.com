@@ -10,7 +10,6 @@ namespace thichtruyentranh;
 class Data_Thich_Truyen_Tranh
 {
     protected $base_url     = "http://thichtruyentranh.com";
-    protected $proxy        = true;
     private   $pattern_li   = '#<div .* id="listChapterBlock">.*<ul class="ul_listchap">(.*)</ul>.*</div>#imsU';
     private   $pattern_a    = '#<li>.*<a href="(.*)" title="(.*)">.*</a></li>#imsU';
     private   $paging_li    = '#<div .* id="listChapterBlock">.*<div class="pagingWrap".*<ul>(.*)</ul></div></div>#imsU';
@@ -18,44 +17,7 @@ class Data_Thich_Truyen_Tranh
  
     function __construct()
     {
-        $this->proxy = ($this->proxy) ? $this->config_proxy() : NULL;
-    }
-
-    /**
-     * Check using proxy
-     * 
-     * @return [boolean]
-     */
-    private function check_proxy($url)
-    {
-        $theHeader = curl_init($url);
-        curl_setopt($theHeader, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($theHeader, CURLOPT_TIMEOUT, 20);
-        curl_setopt($theHeader, CURLOPT_PROXY, $passByIPPort); 
-         
-        //Execute the request
-        $curlResponse = curl_exec($theHeader);
-
-        return $curlResponse;
-    }
-
-    /**
-     * Config proxy
-     * 
-     * @return [proxy]
-     */
-    private function config_proxy()
-    {
-        $default_opts = array(
-          'http'=>array(
-            'proxy'=>"tcp://000.000.000.000:0000",
-            'request_fulluri' => true,
-          )
-        );
-
-        $default = stream_context_create($default_opts);
-
-        return $default;
+        
     }
 
     /**
